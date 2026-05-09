@@ -1,0 +1,14 @@
+{
+  "task_id": "hermes-public-agents-md-fetch-001",
+  "spec": {
+    "url": "https://raw.githubusercontent.com/nutstrut/hermes-operational/main/AGENTS.md",
+    "must_contain": "0xf23C8C0695e0Bd7c6eB979AEc128386Bf1ce3dCc:hermes",
+    "sha256": "CAF90C1893D114B7F6288CBD27E67D726A7F9DFEAF318FDC264BB0B0C9D16BF0"
+  },
+  "output": {
+    "fetched": true,
+    "contains_required_agent_id": true,
+    "sha256": "CAF90C1893D114B7F6288CBD27E67D726A7F9DFEAF318FDC264BB0B0C9D16BF0",
+    "source_url": "https://raw.githubusercontent.com/nutstrut/hermes-operational/main/AGENTS.md"
+  }
+}
