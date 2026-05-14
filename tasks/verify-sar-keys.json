@@ -1,0 +1,16 @@
+{
+  "task_id": "hermes-verify-sar-keys-v1",
+  "task_type": "http_fetch_verify",
+  "spec": {
+    "url": "https://defaultverifier.com/.well-known/sar-keys.json",
+    "expected_content_contains": "sar-prod-ed25519-03",
+    "expected_json_contains": {
+      "keys[].kid": [
+        "sar-prod-ed25519-01",
+        "sar-prod-ed25519-02",
+        "sar-prod-ed25519-03"
+      ]
+    }
+  },
+  "attest_endpoint": "http://127.0.0.1:3004/v1/attest"
+}

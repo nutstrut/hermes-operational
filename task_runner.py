@@ -4,6 +4,7 @@ import pathlib
 import urllib.request
 import requests
 import sys
+from json_helper import json_path_values
 
 TASK_PATH = sys.argv[1]
 
@@ -17,15 +18,27 @@ expected = spec["expected_content_contains"]
 
 print(f"[hermes] fetching: {url}")
 
-content = urllib.request.urlopen(url).read()
+req = urllib.request.Request(url, headers={"User-Agent": "Hermes/1.0"})
+content = urllib.request.urlopen(req).read()
 text = content.decode("utf-8")
 
 sha256 = hashlib.sha256(content).hexdigest()
 
 contains_expected = expected in text
+json_checks_pass = True
+if "expected_json_contains" in spec:
+    data = json.loads(text)
+    for path, required_values in spec["expected_json_contains"].items():
+        actual_values = json_path_values(data, path)
+        for required in required_values:
+            if required not in actual_values:
+                json_checks_pass = False
+verified = contains_expected and json_checks_pass
 
 print(f"[hermes] sha256={sha256}")
 print(f"[hermes] contains_expected={contains_expected}")
+print(f"[hermes] json_checks_pass={json_checks_pass}")
+print(f"[hermes] verified={verified}")
 
 payload = {
     "continuity_input": {
@@ -70,7 +83,7 @@ payload = {
         },
         "output": {
             "expected_content_contains": expected
-        } if contains_expected else {
+        } if verified else {
             "expected_content_contains": "__MISMATCH__"
         },
         "counterparty": "0xf23C8C0695e0Bd7c6eB979AEc128386Bf1ce3dCc"
