@@ -1,0 +1,9 @@
+{
+  "task_id": "hermes-fetch-agents-md-v2",
+  "task_type": "http_fetch_verify",
+  "spec": {
+    "url": "https://raw.githubusercontent.com/nutstrut/hermes-operational/main/AGENTS.md",
+    "expected_content_contains": "0xf23C8C0695e0Bd7c6eB979AEc128386Bf1ce3dCc:hermes"
+  },
+  "attest_endpoint": "http://127.0.0.1:3004/v1/attest"
+}
