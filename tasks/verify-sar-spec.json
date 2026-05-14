@@ -1,0 +1,9 @@
+{
+  "task_id": "hermes-verify-sar-spec-v1",
+  "task_type": "http_fetch_verify",
+  "spec": {
+    "url": "https://defaultverifier.com/spec/sar-v0.1/",
+    "expected_content_contains": "SAR"
+  },
+  "attest_endpoint": "http://127.0.0.1:3004/v1/attest"
+}

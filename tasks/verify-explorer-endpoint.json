@@ -1,0 +1,9 @@
+{
+  "task_id": "hermes-verify-explorer-endpoint-v1",
+  "task_type": "http_fetch_verify",
+  "spec": {
+    "url": "https://defaultverifier.com/explorer.html",
+    "expected_content_contains": "DefaultVerifier"
+  },
+  "attest_endpoint": "http://127.0.0.1:3004/v1/attest"
+}
