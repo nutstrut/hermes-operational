@@ -1,0 +1,119 @@
+{
+  "service": "attest-service",
+  "version": "0.1",
+  "mode": "sync",
+  "status": "complete",
+  "elapsed_ms": 2541,
+  "continuity": {
+    "receipt_type": "continuity_receipt",
+    "schema_version": "0.1",
+    "issued_at": "2026-05-14T20:58:41Z",
+    "subject": {
+      "subject_id": "0xf23C8C0695e0Bd7c6eB979AEc128386Bf1ce3dCc:hermes",
+      "subject_type": "agent"
+    },
+    "classification": "mutation_unknown",
+    "predicates": {
+      "object_continuity": {
+        "status": "unknown",
+        "evidence_refs": []
+      },
+      "constraint_continuity": {
+        "status": "unknown",
+        "evidence_refs": []
+      },
+      "temporal_continuity": {
+        "status": "pass",
+        "evidence_refs": []
+      },
+      "authority_continuity": {
+        "status": "pass",
+        "evidence_refs": []
+      },
+      "executor_continuity": {
+        "status": "pass",
+        "evidence_refs": [],
+        "mechanical_refusal_at_mutation_time": "true"
+      }
+    },
+    "rationale": "classification=mutation_unknown",
+    "input_digest": "sha256:272be4e640b348b2273f0befa4c7b4089484f82bac4fd38a3005977104dedc48",
+    "sar_binding": null,
+    "verifier": {
+      "verifier_id": "defaultverifier-continuity-v1",
+      "verifier_kid": "continuity-prod-ed25519-01",
+      "canonicalization_profile": "JCS"
+    },
+    "_ext": {
+      "billing": {
+        "fee_schedule": {
+          "continuity_evaluation_usd": "0.001",
+          "chain_completion_usd": "0.001"
+        },
+        "currency": "USD",
+        "enforcement_status": "declared_not_enforced"
+      }
+    },
+    "receipt_id": "sha256:9b069a28df4ac582c461683ea45fab88703573c1281e7a44645c1f20293e171b",
+    "this_signal_digest": "sha256:7df3ee90cb6dcd97b1a787d0e76e3908e0be7b00c5072b99b1c57b0904e00818",
+    "signature": "eeacf8a775896e7c781c65011f2917f6ae0cae9c8c4c7e0f19f041fa8449363b9091d7849e5246ea0330de286c2341345c876487612ac9bf62c5bfa274aae602"
+  },
+  "sar": {
+    "witness": "SettlementWitness",
+    "witness_version": "v0",
+    "task_id": "hermes-verify-sar-keys-v1",
+    "verifier_endpoint": "http://127.0.0.1:3000/verify",
+    "witness_timestamp": "2026-05-14T20:58:41.751916Z",
+    "receipt_id": "b1ddfdc4716747846b98c45129776f169ab9d6ce00489119db84ad697de5b919",
+    "receipt_v0_1": {
+      "task_id_hash": "sha256:1fa85da800436066b7b7d931b846fb43c4199264a32dc15bc5e3f006896f02bd",
+      "verdict": "PASS",
+      "confidence": 1.0,
+      "reason_code": "SPEC_MATCH",
+      "ts": "2026-05-14T20:58:41.745001Z",
+      "verifier_kid": "sar-prod-ed25519-03",
+      "counterparty": "0xf23C8C0695e0Bd7c6eB979AEc128386Bf1ce3dCc",
+      "receipt_id": "sha256:6bce13bbbc4cb0709962af6e7759b2ff3dd7628dbd7d5906b8191a5ae617a2b8",
+      "sig": "base64url:OjMraUvDM_c6zwppilHoi4MnOGw2a-N2dW-5pdhevyyYdZuqEbAU0Db_VpszvpZE9K2mA4V0AXkpIGwRpl8dDQ"
+    },
+    "counterparty": "0xf23C8C0695e0Bd7c6eB979AEc128386Bf1ce3dCc",
+    "_ext": {
+      "agent_id": "0xf23C8C0695e0Bd7c6eB979AEc128386Bf1ce3dCc:hermes",
+      "continuity": {
+        "v1": {
+          "continuity_binding": "sha256:9b069a28df4ac582c461683ea45fab88703573c1281e7a44645c1f20293e171b"
+        }
+      }
+    },
+    "payment": {
+      "fee_usd": 0.001,
+      "status": "requested_not_enforced",
+      "model": "x402",
+      "message": "A verification fee is requested for this endpoint, but not currently enforced during early adoption.",
+      "incentive": "Top-tier agents will receive permanent free-tier benefits when enforcement begins.",
+      "networks": {
+        "base": "0xCe52D13FeBF8144d2e71C4a18ed26e6098D72863",
+        "solana": "4DbbwiCrpFSZnBFneyksmXyXiC69k4RzdiQ3fjoXmE31"
+      },
+      "current_tier": "unknown",
+      "receipts_to_next_tier": null
+    }
+  },
+  "chain": {
+    "chain_id": "sha256:da11aac5e4aebd352a277689be0f6672ef3b44c48e43fe442ccfeddc11ceef00",
+    "event_type": "chain_complete",
+    "continuity_receipt_id": "sha256:9b069a28df4ac582c461683ea45fab88703573c1281e7a44645c1f20293e171b",
+    "sar_receipt_id": "b1ddfdc4716747846b98c45129776f169ab9d6ce00489119db84ad697de5b919",
+    "chain_status": "complete",
+    "continuity_issued_at": "2026-05-14T20:58:41Z",
+    "sar_issued_at": "2026-05-14T20:58:41.745001Z",
+    "time_delta_seconds": 0.745001,
+    "chain_latency_bucket": "sub_second",
+    "verdict_correlation": "mutation_unknown:PASS",
+    "prior_signal_digest": "sha256:f85d20c60b78d29306f5e4c322947abb808aec7cae9c89e9e654193270ae9134",
+    "continuity_classification": "mutation_unknown",
+    "sar_verdict": "PASS",
+    "predicate_failure_vector": [],
+    "executor_continuity_status": "pass"
+  }
+}
