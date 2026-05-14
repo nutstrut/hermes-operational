@@ -64,6 +64,7 @@ payload = {
     },
     "sar_input": {
         "task_id": task_id,
+        "agent_id": "0xf23C8C0695e0Bd7c6eB979AEc128386Bf1ce3dCc:hermes",
         "spec": {
             "expected_content_contains": expected
         },
