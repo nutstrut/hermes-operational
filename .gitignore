@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 receipts/
 reports/*.json
+
+__pycache__/
+*.pyc
+receipts/
+reports/*.json
