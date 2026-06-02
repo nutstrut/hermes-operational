@@ -41,6 +41,7 @@ LOCAL_FILES = [
     "../settlement-witness/public-spec/spec/sar-v0.1/fixtures/index.html",
     "../attest-service/README.md",
     "../continuity-analyzer/README.md",
+    "../defaultsettle-cli/README.md",
     "AGENTS.md",
 ]
 
