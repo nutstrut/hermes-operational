@@ -58,6 +58,19 @@ TERMINOLOGY = {
     "Trust Report": ["trust report"],
 }
 
+EVIDENCE_LOOP_FIXTURES = [
+    "activation-example.json",
+    "continuity-receipt-example.json",
+    "chain-complete-example.json",
+    "agent-profile-example.json",
+    "badge-verification-example.json",
+]
+
+EVIDENCE_LOOP_FIXTURE_NOTE = (
+    "Evidence-loop fixture set detected: activation, continuity receipt, chain complete, "
+    "agent profile, and badge verification."
+)
+
 
 @dataclass
 class Surface:
@@ -195,6 +208,21 @@ def missing_names(items: dict[str, bool]) -> list[str]:
     return [name for name, present in items.items() if not present]
 
 
+def fixture_coverage(bundle_dir: Path, surfaces: list[Surface], summary: dict[str, Any]) -> dict[str, bool]:
+    searchable_parts: list[str] = []
+    searchable_parts.extend(str(path.relative_to(bundle_dir)) for path in bundle_dir.rglob("*") if path.is_file())
+    searchable_parts.extend(surface.source for surface in surfaces)
+    searchable_parts.extend(str(surface.path) for surface in surfaces if surface.path)
+    searchable_parts.extend(surface.raw for surface in surfaces if surface.ok)
+    searchable_parts.extend(
+        " ".join(str(value) for value in item.values())
+        for section in ("local_files", "urls")
+        for item in summary.get(section, [])
+    )
+    searchable_text = "\n".join(searchable_parts).lower()
+    return {fixture: fixture.lower() in searchable_text for fixture in EVIDENCE_LOOP_FIXTURES}
+
+
 def describe_surface(surface: Surface) -> str:
     if surface.missing:
         return f"`{surface.source}` was missing from the collector bundle."
@@ -235,6 +263,9 @@ def build_report(bundle_dir: Path, surfaces: list[Surface], summary: dict[str, A
     missing_files = [item["path"] for item in summary.get("local_files", []) if item.get("missing")]
     all_text = "\n".join(surface.text for surface in surfaces if surface.ok)
     overall_terms = coverage(all_text, TERMINOLOGY)
+    fixture_status = fixture_coverage(bundle_dir, surfaces, summary)
+    missing_fixtures = missing_names(fixture_status)
+    has_complete_fixture_set = not missing_fixtures
 
     p0: list[str] = []
     p1: list[str] = []
@@ -275,10 +306,17 @@ def build_report(bundle_dir: Path, surfaces: list[Surface], summary: dict[str, A
     p2.extend(
         [
             "Add copyable end-to-end examples for Agent Activation -> SAR Receipt -> Continuity Receipt -> Chained Evidence.",
-            "Publish fixture sets for continuity receipts, chained evidence, agent profile payloads, badge verification, and trust reports.",
             "Add a glossary block that keeps Default Settlement, SAR, Continuity, Agent Profile, Machine Trust, Evidence Chain, and Trust Report consistent across pages.",
         ]
     )
+    if has_complete_fixture_set:
+        p2.append(EVIDENCE_LOOP_FIXTURE_NOTE)
+    else:
+        p2.append(
+            "Missing evidence-loop fixture files: "
+            + ", ".join(f"`{fixture}`" for fixture in missing_fixtures)
+            + "."
+        )
 
     if not p0:
         p0.append("No blocking P0 surfaced from the collected bundle.")
@@ -298,8 +336,19 @@ def build_report(bundle_dir: Path, surfaces: list[Surface], summary: dict[str, A
         "",
         "The surfaces have solid SAR, Continuity, fixture, and Explorer foundations. The main product-strategy gap is that the public journey still reads more like verification documentation than a complete machine-trust activation loop. Agent Activation, chained evidence, and continuity receipts are present in parts, but Agent Profile, Badge Verification, and Public Trust Report need sharper public naming and navigation.",
         "",
-        "Terminology coverage across the bundle:",
     ]
+    if has_complete_fixture_set:
+        lines.extend([EVIDENCE_LOOP_FIXTURE_NOTE, ""])
+    else:
+        lines.extend(
+            [
+                "Evidence-loop fixture coverage is incomplete. Missing files: "
+                + ", ".join(f"`{fixture}`" for fixture in missing_fixtures)
+                + ".",
+                "",
+            ]
+        )
+    lines.append("Terminology coverage across the bundle:")
     lines.extend(f"- {term}: {'present' if present else 'missing'}" for term, present in overall_terms.items())
 
     lines.extend(["", "## P0 Fix Before Ecosystem Push", "", "(blocking)", ""])
@@ -329,7 +378,12 @@ def build_report(bundle_dir: Path, surfaces: list[Surface], summary: dict[str, A
             "3. Update Explorer language to consistently name Agent Profiles, chained evidence, badge verification, and public trust reports.",
             "4. Normalize navigation across Home, Start, Explorer, Specs, and GitHub links.",
             "5. Add developer examples for activation, SAR, continuity, chain lookup, profile rendering, and trust-report verification.",
-            "6. Add fixture coverage for continuity, evidence chains, badge verification, and trust reports.",
+            "6. "
+            + (
+                "Keep the detected evidence-loop fixture set visible in public specs."
+                if has_complete_fixture_set
+                else "Add missing fixture coverage for " + ", ".join(missing_fixtures) + "."
+            ),
             "7. Add SDK/CLI documentation after the public surface language is stable.",
             "",
         ]
