@@ -48,6 +48,13 @@ NAVIGATION = {
     "GitHub": ["github.com", ">github<"],
 }
 
+CLI_LIFECYCLE = {
+    "activate": ["defaultsettle activate"],
+    "profile": ["defaultsettle profile"],
+    "chain": ["defaultsettle chain"],
+    "verify": ["defaultsettle verify"],
+}
+
 TERMINOLOGY = {
     "Default Settlement": ["default settlement"],
     "SAR": ["sar", "settlement attestation receipt"],
@@ -208,6 +215,24 @@ def missing_names(items: dict[str, bool]) -> list[str]:
     return [name for name, present in items.items() if not present]
 
 
+def cli_lifecycle_lines(status: dict[str, bool]) -> list[str]:
+    labels = {
+        "activate": "activate command",
+        "profile": "profile command",
+        "chain": "chain command",
+        "verify": "verify command",
+    }
+    lines: list[str] = []
+    for command, present in status.items():
+        if present:
+            lines.append(f"✓ {labels[command]} detected")
+        elif command == "activate":
+            lines.append(f"○ {labels[command]} pending onboarding")
+        else:
+            lines.append(f"✗ {labels[command]} missing")
+    return lines
+
+
 def fixture_coverage(bundle_dir: Path, surfaces: list[Surface], summary: dict[str, Any]) -> dict[str, bool]:
     searchable_parts: list[str] = []
     searchable_parts.extend(str(path.relative_to(bundle_dir)) for path in bundle_dir.rglob("*") if path.is_file())
@@ -263,6 +288,7 @@ def build_report(bundle_dir: Path, surfaces: list[Surface], summary: dict[str, A
     missing_files = [item["path"] for item in summary.get("local_files", []) if item.get("missing")]
     all_text = "\n".join(surface.text for surface in surfaces if surface.ok)
     overall_terms = coverage(all_text, TERMINOLOGY)
+    cli_status = coverage(all_text, CLI_LIFECYCLE)
     fixture_status = fixture_coverage(bundle_dir, surfaces, summary)
     missing_fixtures = missing_names(fixture_status)
     has_complete_fixture_set = not missing_fixtures
@@ -350,6 +376,16 @@ def build_report(bundle_dir: Path, surfaces: list[Surface], summary: dict[str, A
         )
     lines.append("Terminology coverage across the bundle:")
     lines.extend(f"- {term}: {'present' if present else 'missing'}" for term, present in overall_terms.items())
+
+    lines.extend(["", "## CLI Lifecycle", ""])
+    lines.extend(cli_lifecycle_lines(cli_status))
+    if not cli_status["activate"]:
+        lines.extend(
+            [
+                "",
+                "Activate is tracked as pending onboarding because `defaultsettle activate` is planned but not implemented yet.",
+            ]
+        )
 
     lines.extend(["", "## P0 Fix Before Ecosystem Push", "", "(blocking)", ""])
     lines.extend(f"- {item}" for item in p0)
