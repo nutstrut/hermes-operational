@@ -89,9 +89,13 @@ def main():
                 "subject_type": "agent",
             },
             "receipts": [{
+                "receipt_id": "morpheus-genesis-manifest-root",
                 "signal_type": "genesis_import_manifest",
                 "digest": manifest_digest,
                 "issuer": "hermes-operational",
+                "canonicalization_profile": "JCS",
+                "signed_payload": manifest,
+                "signature": {},
             }],
             "execution_path": {
                 "action_id": TASK_ID,
