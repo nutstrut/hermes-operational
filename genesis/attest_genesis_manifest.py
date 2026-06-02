@@ -1,12 +1,16 @@
 import hashlib
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 
-ATTEST_ENDPOINT = "https://defaultverifier.com/v1/attest"
+ATTEST_ENDPOINT = os.environ.get(
+    "DEFAULT_SETTLEMENT_ATTEST_ENDPOINT",
+    "https://defaultverifier.com/v1/attest",
+)
 TASK_ID = "morpheus-genesis-import-manifest-v0.1"
 MANIFEST_DISPLAY_PATH = "genesis/morpheus-genesis-import-v0.1.json"
 MANIFEST_PATH = Path(__file__).with_name("morpheus-genesis-import-v0.1.json")
