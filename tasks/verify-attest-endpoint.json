@@ -1,6 +1,7 @@
 {
   "task_id": "hermes-verify-attest-endpoint-v1",
   "task_type": "http_fetch_verify",
+  "agent_id": "agent:morpheus",
   "spec": {
     "url": "http://127.0.0.1:3004/docs",
     "expected_content_contains": "attest-service"

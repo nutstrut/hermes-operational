@@ -1,6 +1,7 @@
 {
   "task_id": "hermes-verify-sar-keys-v1",
   "task_type": "http_fetch_verify",
+  "agent_id": "agent:morpheus",
   "spec": {
     "url": "https://defaultverifier.com/.well-known/sar-keys.json",
     "expected_content_contains": "sar-prod-ed25519-03",

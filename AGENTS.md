@@ -46,6 +46,18 @@ Hermes currently supports:
 - surface collection through `surface_collector.py`,
 - semantic surface audit reporting through `surface_auditor.py`.
 
+### Accountability vs. execution
+
+Every task definition in `tasks/*.json` must declare an `agent_id`: the
+accountable subject who receives TrustScore attribution for that task's
+receipts. This is often a different agent than Hermes itself -- e.g.
+Morpheus's daily verification tasks are accountable to `agent:morpheus`,
+even though Hermes executes them. `task_runner.py` always submits its own
+identity separately as `executor_id`, and fails closed (submits no receipt)
+if a task has no declared `agent_id` -- it never defaults accountability to
+Hermes. See settlement-witness's `docs/receipt-identity-model.md` for the
+full identity model.
+
 ## Evidence Lifecycle
 
 Hermes is aware of the current Default Settlement evidence lifecycle:

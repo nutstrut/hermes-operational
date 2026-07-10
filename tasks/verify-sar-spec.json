@@ -1,6 +1,7 @@
 {
   "task_id": "hermes-verify-sar-spec-v1",
   "task_type": "http_fetch_verify",
+  "agent_id": "agent:morpheus",
   "spec": {
     "url": "https://defaultverifier.com/spec/sar-v0.1/",
     "expected_content_contains": "SAR"
