@@ -1,0 +1,8 @@
+[Unit]
+Description=Hermes Monitor Failure Alert Notifier (attention only)
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/hermes-operational-vps
+ExecStart=/usr/bin/python3 /home/ubuntu/hermes-operational-vps/hermes_failure_alert.py --unit=hermes-monitor.service
